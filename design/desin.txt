@@ -1,0 +1,126 @@
+Create a full-stack chat application architecture using MVC pattern
+with Node.js and Express.
+
+Use the following structure:
+
+MODELS:
+- userModel.js: users schema (username, email, password, status)
+- chatModel.js: messages (sender, receiver, message, time)
+- callModel.js: calls (caller, receiver, type, duration)
+- adminModel.js: admin credentials
+
+CONTROLLERS:
+- authController.js:
+  - login
+  - register
+  - logout
+
+- chatController.js:
+  - getChatList
+  - getChatPage
+  - sendMessage
+
+- callController.js:
+  - startAudioCall
+  - startVideoCall
+  - endCall
+
+- adminController.js:
+  - adminLogin
+  - dashboardData
+  - manageUsers
+  - viewChats
+  - viewCalls
+  - handleReports
+
+ROUTES:
+- authRoutes.js
+- chatRoutes.js
+- callRoutes.js
+- adminRoutes.js
+
+VIEWS:
+User side (EJS):
+- login.ejs
+- chats.ejs
+- chat.ejs
+- videocall.ejs
+- audiocall.ejs
+
+Admin side (EJS):
+- admin-login.ejs
+- dashboard.ejs
+- users.ejs
+- chats.ejs
+- calls.ejs
+- reports.ejs
+
+REQUIREMENTS:
+- Use Express.js
+- Use EJS as view engine
+- Follow MVC strictly
+- Use clean route-controller-model separation
+- Add comments for clarity
+- Keep UI simple and modern
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+chat-app/
+│
+├── server.js
+├── package.json
+│
+├── models/
+│   ├── userModel.js
+│   ├── chatModel.js
+│   ├── callModel.js
+│   └── adminModel.js
+│
+├── controllers/
+│   ├── authController.js
+│   ├── chatController.js
+│   ├── callController.js
+│   └── adminController.js
+│
+├── routes/
+│   ├── authRoutes.js
+│   ├── chatRoutes.js
+│   ├── callRoutes.js
+│   └── adminRoutes.js
+│
+├── views/
+│   ├── user/
+│   │   ├── login.ejs
+│   │   ├── chats.ejs
+│   │   ├── chat.ejs
+│   │   ├── videocall.ejs
+│   │   └── audiocall.ejs
+│   │
+│   └── admin/
+│       ├── admin-login.ejs
+│       ├── dashboard.ejs
+│       ├── users.ejs
+│       ├── chats.ejs
+│       ├── calls.ejs
+│       └── reports.ejs
+│
+├── public/
+│   ├── css/
+│   │   └── style.css
+│   └── js/
+│       └── app.js

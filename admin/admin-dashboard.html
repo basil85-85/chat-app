@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard - ChatApp</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Dark admin layout -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ==== RESET ==== */
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{
+            font-family:'Inter',sans-serif;
+            min-height:100vh;
+            display:flex;
+            background:#020617;
+            color:#e5e7eb;
+        }
+
+        /* ==== SIDEBAR ==== */
+        .sidebar{
+            width:240px;
+            background:#020617;
+            border-right:1px solid rgba(148,163,184,0.25);
+            display:flex;
+            flex-direction:column;
+            position:fixed;
+            inset:0 auto 0 0;
+        }
+
+        .sidebar-header{
+            padding:18px 20px;
+            display:flex;
+            align-items:center;
+            gap:10px;
+            border-bottom:1px solid rgba(148,163,184,0.25);
+        }
+
+        .logo-circle{
+            width:32px;
+            height:32px;
+            border-radius:50%;
+            background:linear-gradient(135deg,#38bdf8,#22c55e);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:18px;
+        }
+
+        .sidebar-title{
+            font-weight:600;
+            font-size:16px;
+        }
+
+        .menu{
+            flex:1;
+            padding:14px 10px 10px;
+            display:flex;
+            flex-direction:column;
+            gap:4px;
+        }
+
+        .menu-link{
+            display:flex;
+            align-items:center;
+            gap:10px;
+            padding:9px 12px;
+            border-radius:12px;
+            color:#cbd5f5;
+            text-decoration:none;
+            font-size:14px;
+            transition:all .2s ease;
+        }
+
+        .menu-link span.icon{
+            width:24px;
+            text-align:center;
+        }
+
+        .menu-link:hover{
+            background:rgba(30,64,175,0.6);
+            color:#f9fafb;
+        }
+
+        .menu-link.active{
+            background:linear-gradient(135deg,#1d4ed8,#22c55e);
+            color:#f9fafb;
+        }
+
+        .menu-footer{
+            padding:10px;
+            border-top:1px solid rgba(148,163,184,0.25);
+        }
+
+        /* ==== MAIN AREA ==== */
+        .main{
+            margin-left:240px;
+            flex:1;
+            display:flex;
+            flex-direction:column;
+            min-height:100vh;
+            background:radial-gradient(circle at top left,rgba(37,99,235,0.18),transparent 55%),
+                       radial-gradient(circle at bottom right,rgba(22,163,74,0.25),transparent 55%);
+        }
+
+        .main-header{
+            padding:14px 20px;
+            border-bottom:1px solid rgba(148,163,184,0.25);
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            backdrop-filter:blur(10px);
+            background:rgba(2,6,23,0.9);
+        }
+
+        .page-title{
+            font-size:18px;
+            font-weight:600;
+        }
+
+        .admin-chip{
+            font-size:12px;
+            padding:6px 10px;
+            border-radius:999px;
+            background:rgba(15,23,42,0.9);
+            border:1px solid rgba(148,163,184,0.5);
+        }
+
+        .content{
+            padding:20px;
+        }
+
+        /* ==== STAT CARDS ==== */
+        .stats-grid{
+            display:flex;
+            flex-wrap:wrap;
+            gap:16px;
+            margin-bottom:24px;
+        }
+
+        .stat-card{
+            flex:1 1 180px;
+            min-width:180px;
+            max-width:260px;
+            background:rgba(15,23,42,0.95);
+            border-radius:18px;
+            padding:16px 16px 14px;
+            border:1px solid rgba(51,65,85,0.9);
+            box-shadow:0 18px 35px rgba(15,23,42,0.8);
+            display:flex;
+            flex-direction:column;
+            gap:6px;
+        }
+
+        .stat-header{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            font-size:13px;
+            color:#9ca3af;
+        }
+
+        .stat-icon{
+            width:30px;
+            height:30px;
+            border-radius:999px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:18px;
+            background:rgba(30,64,175,0.3);
+        }
+
+        .stat-value{
+            font-size:24px;
+            font-weight:600;
+        }
+
+        .stat-footer{
+            font-size:11px;
+            color:#6b7280;
+        }
+
+        /* ==== RECENT ACTIVITY (example block) ==== */
+        .panel{
+            margin-top:8px;
+            background:rgba(15,23,42,0.96);
+            border-radius:18px;
+            border:1px solid rgba(51,65,85,0.9);
+            padding:16px 18px;
+        }
+
+        .panel-title{
+            font-size:14px;
+            font-weight:500;
+            margin-bottom:10px;
+        }
+
+        .activity-list{
+            list-style:none;
+            display:flex;
+            flex-direction:column;
+            gap:6px;
+            font-size:13px;
+            color:#9ca3af;
+        }
+
+        /* ==== MOBILE ==== */
+        @media(max-width:768px){
+            .sidebar{
+                position:fixed;
+                inset:auto 0 0 0;
+                height:60px;
+                flex-direction:row;
+                border-right:none;
+                border-top:1px solid rgba(148,163,184,0.25);
+                overflow-x:auto;
+            }
+            .sidebar-header{display:none;}
+            .menu{flex-direction:row;align-items:center;justify-content:space-between;padding:8px;}
+            .menu-footer{display:none;}
+            .main{margin-left:0;margin-bottom:60px;}
+            .stats-grid{flex-direction:column;}
+            .stat-card{max-width:none;}
+        }
+    </style>
+</head>
+<body>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-circle">⚙️</div>
+            <div class="sidebar-title">Admin Panel</div>
+        </div>
+        <nav class="menu">
+            <a class="menu-link active" href="admin-dashboard.html">
+                <span class="icon">📊</span> Dashboard
+            </a>
+            <a class="menu-link" href="admin-users.html">
+                <span class="icon">👥</span> Users
+            </a>
+            <a class="menu-link" href="admin-chats.html">
+                <span class="icon">💬</span> Chats
+            </a>
+            <a class="menu-link" href="admin-calls.html">
+                <span class="icon">📞</span> Calls
+            </a>
+            <a class="menu-link" href="admin-reports.html">
+                <span class="icon">🚩</span> Reports
+            </a>
+        </nav>
+        <div class="menu-footer">
+            <a class="menu-link" href="admin-login.html">
+                <span class="icon">🚪</span> Logout
+            </a>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+        <header class="main-header">
+            <h1 class="page-title">Dashboard Overview</h1>
+            <div class="admin-chip">Logged in as: superadmin@example.com</div>
+        </header>
+
+        <section class="content">
+            <!-- Stat cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span>Total Users</span>
+                        <div class="stat-icon">👥</div>
+                    </div>
+                    <div class="stat-value">1,248</div>
+                    <div class="stat-footer">All registered accounts</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span>Active Users</span>
+                        <div class="stat-icon">🟢</div>
+                    </div>
+                    <div class="stat-value">312</div>
+                    <div class="stat-footer">Currently online</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span>Total Chats</span>
+                        <div class="stat-icon">💬</div>
+                    </div>
+                    <div class="stat-value">8,920</div>
+                    <div class="stat-footer">Messages in the system</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span>Ongoing Calls</span>
+                        <div class="stat-icon">📡</div>
+                    </div>
+                    <div class="stat-value">9</div>
+                    <div class="stat-footer">Active audio / video calls</div>
+                </div>
+            </div>
+
+            <!-- Example: Recent activity area -->
+            <div class="panel">
+                <h2 class="panel-title">Recent activity</h2>
+                <ul class="activity-list">
+                    <li>• New report received for user <strong>@alex</strong>.</li>
+                    <li>• 4 new video calls started in the last 10 minutes.</li>
+                    <li>• 23 users logged in in the last hour.</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

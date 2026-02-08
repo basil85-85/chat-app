@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatApp - Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* === RESET & GLOBAL === */
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{
+            font-family:'Inter',sans-serif;
+            background:linear-gradient(135deg,#667eea 0%,#10b981 100%);
+            min-height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            padding:20px;
+        }
+
+        /* === PROFILE CARD WRAPPER === */
+        .profile-wrapper{
+            width:100%;
+            max-width:520px;
+        }
+
+        .profile-card{
+            background:rgba(255,255,255,0.97);
+            border-radius:24px;
+            box-shadow:0 24px 40px rgba(15,23,42,0.2);
+            overflow:hidden;
+        }
+
+        /* === HEADER BAR === */
+        .profile-header{
+            padding:18px 24px;
+            background:linear-gradient(135deg,#10b981,#059669);
+            color:#ecfeff;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+        }
+
+        .profile-header-title{
+            font-size:18px;
+            font-weight:600;
+        }
+
+        .back-link{
+            color:#ecfeff;
+            text-decoration:none;
+            font-size:14px;
+            display:flex;
+            align-items:center;
+            gap:4px;
+        }
+
+        /* === TOP SECTION (AVATAR & BASIC INFO) === */
+        .profile-top{
+            padding:24px 24px 12px;
+            display:flex;
+            gap:16px;
+            align-items:center;
+        }
+
+        .avatar-large{
+            width:80px;
+            height:80px;
+            border-radius:50%;
+            background:linear-gradient(135deg,#10b981,#059669);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:32px;
+            color:#fff;
+            font-weight:700;
+            position:relative;
+        }
+
+        .avatar-edit-btn{
+            position:absolute;
+            bottom:-4px;
+            right:-4px;
+            width:28px;
+            height:28px;
+            border-radius:50%;
+            background:#0f172a;
+            color:#f9fafb;
+            border:2px solid #f1f5f9;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:14px;
+            cursor:pointer;
+        }
+
+        .profile-basic{
+            flex:1;
+        }
+
+        .profile-name{
+            font-size:22px;
+            font-weight:600;
+            color:#111827;
+            margin-bottom:4px;
+        }
+
+        .profile-username{
+            font-size:14px;
+            color:#6b7280;
+            margin-bottom:4px;
+        }
+
+        .profile-status{
+            font-size:13px;
+            color:#10b981;
+        }
+
+        /* === FORM SECTION === */
+        .profile-form{
+            padding:8px 24px 20px;
+            display:flex;
+            flex-direction:column;
+            gap:16px;
+        }
+
+        .field-group{
+            display:flex;
+            flex-direction:column;
+            gap:6px;
+        }
+
+        .field-label{
+            font-size:13px;
+            font-weight:500;
+            color:#6b7280;
+        }
+
+        .field-input,
+        .field-textarea,
+        .field-select{
+            border:2px solid #e5e7eb;
+            border-radius:14px;
+            padding:10px 14px;
+            font-size:14px;
+            font-family:inherit;
+            transition:all .25s ease;
+            background:#f9fafb;
+        }
+
+        .field-textarea{
+            min-height:70px;
+            resize:vertical;
+        }
+
+        .field-input:focus,
+        .field-textarea:focus,
+        .field-select:focus{
+            outline:none;
+            border-color:#10b981;
+            box-shadow:0 0 0 3px rgba(16,185,129,0.15);
+            background:#fff;
+        }
+
+        .field-hint{
+            font-size:11px;
+            color:#9ca3af;
+        }
+
+        /* === ACTION BUTTONS === */
+        .profile-actions{
+            padding:16px 24px 20px;
+            display:flex;
+            gap:10px;
+            flex-wrap:wrap;
+        }
+
+        .btn{
+            flex:1;
+            min-width:130px;
+            padding:11px 14px;
+            border-radius:999px;
+            border:none;
+            font-size:14px;
+            font-weight:500;
+            cursor:pointer;
+            transition:all .2s ease;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            gap:6px;
+        }
+
+        .btn-save{
+            background:linear-gradient(135deg,#10b981,#059669);
+            color:#ecfeff;
+        }
+        .btn-save:hover{
+            transform:translateY(-1px);
+            box-shadow:0 10px 25px rgba(16,185,129,0.4);
+        }
+
+        .btn-logout{
+            background:#fee2e2;
+            color:#b91c1c;
+        }
+        .btn-logout:hover{
+            background:#fecaca;
+        }
+
+        /* === SMALL NOTE === */
+        .profile-note{
+            padding:0 24px 18px;
+            font-size:11px;
+            color:#9ca3af;
+        }
+
+        /* === MOBILE === */
+        @media (max-width:480px){
+            .profile-card{border-radius:20px;}
+            .profile-top{flex-direction:column;align-items:flex-start;}
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-wrapper">
+        <div class="profile-card">
+            <!-- Header with back to chats -->
+            <div class="profile-header">
+                <a href="chats.html" class="back-link">← Chats</a>
+                <div class="profile-header-title">Profile</div>
+                <span style="width:52px;"></span>
+            </div>
+
+            <!-- Avatar + basic info -->
+            <div class="profile-top">
+                <div class="avatar-large" id="avatarCircle">
+                    JD
+                    <!-- Change avatar button (UI only) -->
+                    <button type="button" class="avatar-edit-btn" title="Change avatar">✏️</button>
+                </div>
+                <div class="profile-basic">
+                    <div class="profile-name" id="displayName">John Doe</div>
+                    <div class="profile-username" id="displayEmail">john@example.com</div>
+                    <div class="profile-status" id="displayStatus">Online</div>
+                </div>
+            </div>
+
+            <!-- Editable profile fields -->
+            <form class="profile-form" onsubmit="handleSave(event)">
+                <div class="field-group">
+                    <label class="field-label" for="fullName">Full name</label>
+                    <input id="fullName" class="field-input" type="text" value="John Doe">
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label" for="email">Email</label>
+                    <input id="email" class="field-input" type="email" value="john@example.com">
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label" for="about">About</label>
+                    <textarea id="about" class="field-textarea" placeholder="Hey there! I’m using ChatApp."></textarea>
+                    <span class="field-hint">Short status shown to your contacts.</span>
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label" for="theme">Accent color</label>
+                    <select id="theme" class="field-select">
+                        <option value="green" selected>Green (Default)</option>
+                        <option value="blue">Blue</option>
+                        <option value="pink">Pink</option>
+                    </select>
+                    <span class="field-hint">Only visual in this static demo.</span>
+                </div>
+            </form>
+
+            <!-- Actions -->
+            <div class="profile-actions">
+                <button class="btn btn-save" onclick="handleSave(event)">💾 Save changes</button>
+                <button class="btn btn-logout" onclick="handleLogout()">🚪 Logout</button>
+            </div>
+
+            <p class="profile-note">
+                This is a static UI demo. “Save” updates the preview on this page; “Logout” sends you back to login.html.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Simple UI-only "Save" – updates displayed name/email/status and avatar initials
+        function handleSave(e){
+            if(e) e.preventDefault();
+            const name = document.getElementById('fullName').value.trim() || 'User';
+            const email = document.getElementById('email').value.trim() || 'user@example.com';
+            const about = document.getElementById('about').value.trim() || 'Hey there! I’m using ChatApp.';
+
+            document.getElementById('displayName').textContent = name;
+            document.getElementById('displayEmail').textContent = email;
+            document.getElementById('displayStatus').textContent = about;
+
+            // Change avatar letters from name initials
+            const initials = name.split(' ')
+                .filter(Boolean)
+                .slice(0,2)
+                .map(word => word[0].toUpperCase())
+                .join('');
+            document.getElementById('avatarCircle').firstChild.nodeValue = initials || 'U';
+        }
+
+        // UI-only logout – navigate back to login page
+        function handleLogout(){
+            window.location.href = 'login.html';
+        }
+
+        // Optional: change avatar color based on select theme (visual only)
+        const themeSelect = document.getElementById('theme');
+        const avatarCircle = document.getElementById('avatarCircle');
+
+        themeSelect.addEventListener('change', ()=>{
+            const v = themeSelect.value;
+            if(v === 'green'){
+                avatarCircle.style.background = 'linear-gradient(135deg,#10b981,#059669)';
+            }else if(v === 'blue'){
+                avatarCircle.style.background = 'linear-gradient(135deg,#3b82f6,#1d4ed8)';
+            }else{
+                avatarCircle.style.background = 'linear-gradient(135deg,#ec4899,#db2777)';
+            }
+        });
+    </script>
+</body>
+</html>

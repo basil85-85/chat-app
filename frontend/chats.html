@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatApp - Chats</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* === RESET & GLOBAL === */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            height: 100vh; 
+            background: #f8fafc;
+            overflow: hidden;
+        }
+
+        /* === SIDEBAR HEADER === */
+        .sidebar-header {
+            padding: 24px 20px;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .profile-avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #10b981, #059669);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 20px;
+        }
+
+        .user-info h3 {
+            font-weight: 600;
+            color: #111827;
+            font-size: 16px;
+        }
+
+        .user-status {
+            font-size: 13px;
+            color: #10b981;
+        }
+
+        /* === SEARCH BAR === */
+        .search-container {
+            padding: 0 20px 20px;
+            background: white;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 16px 20px 16px 52px;
+            border: 2px solid #e2e8f0;
+            border-radius: 24px;
+            background: #f8fafc url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="%236b7280" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>') no-repeat 20px center;
+            background-size: 20px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #10b981;
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+        }
+
+        /* === CHAT LIST === */
+        .chat-list {
+            flex: 1;
+            overflow-y: auto;
+            background: #f8fafc;
+        }
+
+        .chat-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .chat-item:hover {
+            background: rgba(16, 185, 129, 0.08);
+        }
+
+        .chat-item.active {
+            background: linear-gradient(90deg, rgba(16, 185, 129, 0.12), transparent);
+        }
+
+        .chat-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 20px;
+        }
+
+        .chat-avatar.sarah { background: linear-gradient(135deg, #10b981, #059669); }
+        .chat-avatar.mike { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+        .chat-avatar.emma { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .chat-avatar.alex { background: linear-gradient(135deg, #ec4899, #db2777); }
+
+        .chat-details {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .chat-name {
+            font-weight: 600;
+            color: #111827;
+            font-size: 16px;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .chat-preview {
+            color: #6b7280;
+            font-size: 14px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .chat-time {
+            font-size: 12px;
+            color: #9ca3af;
+            min-width: 52px;
+            text-align: right;
+        }
+
+        /* === MOBILE === */
+        @media (max-width: 768px) {
+            body { flex-direction: column; }
+            .sidebar-header { padding: 20px 16px; }
+            .chat-item { padding: 14px 16px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar-header">
+        <div class="user-profile">
+            <div class="profile-avatar">JD</div>
+            <div class="user-info">
+                <h3>John Doe</h3>
+                <p class="user-status">Online</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="search-container">
+        <input type="text" class="search-input" placeholder="Search chats...">
+    </div>
+
+    <div class="chat-list">
+        <!-- Sarah - Active Chat -->
+        <a href="chat.html?user=sarah" class="chat-item active">
+            <div class="chat-avatar sarah">S</div>
+            <div class="chat-details">
+                <div class="chat-name">Sarah Johnson</div>
+                <div class="chat-preview">Hey! How's your project going? 🚀</div>
+            </div>
+            <div class="chat-time">2:30</div>
+        </a>
+
+        <!-- Mike -->
+        <a href="chat.html?user=mike" class="chat-item">
+            <div class="chat-avatar mike">M</div>
+            <div class="chat-details">
+                <div class="chat-name">Mike Chen</div>
+                <div class="chat-preview">Check out this new feature...</div>
+            </div>
+            <div class="chat-time">Today</div>
+        </a>
+
+        <!-- Emma -->
+        <a href="chat.html?user=emma" class="chat-item">
+            <div class="chat-avatar emma">E</div>
+            <div class="chat-details">
+                <div class="chat-name">Emma Wilson</div>
+                <div class="chat-preview">See you at 3pm?</div>
+            </div>
+            <div class="chat-time">Yday</div>
+        </a>
+
+        <!-- Alex -->
+        <a href="chat.html?user=alex" class="chat-item">
+            <div class="chat-avatar alex">A</div>
+            <div class="chat-details">
+                <div class="chat-name">Alex Rivera</div>
+                <div class="chat-preview">Thanks for the help! 🙌</div>
+            </div>
+            <div class="chat-time">Mon</div>
+        </a>
+    </div>
+
+    <script>
+        // Visual feedback for active chat (via CSS classes)
+        document.querySelectorAll('.chat-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.chat-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

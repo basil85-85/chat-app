@@ -82,8 +82,9 @@ REQUIREMENTS:
 
 chat-app/
 │
-├── server.js
+├── app.ts 
 ├── package.json
+├── tsconfig.json 
 │
 ├── models/
 │   ├── userModel.js

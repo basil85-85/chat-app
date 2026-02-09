@@ -82,47 +82,217 @@ REQUIREMENTS:
 
 chat-app/
 │
-├── app.ts 
+├── app.ts                          # Application entry point
+├── server.ts                       # Server configuration
 ├── package.json
-├── tsconfig.json 
+├── tsconfig.json
+├── .env.example
+├── .gitignore
+├── README.md
 │
-├── models/
-│   ├── userModel.js
-│   ├── chatModel.js
-│   ├── callModel.js
-│   └── adminModel.js
-│
-├── controllers/
-│   ├── authController.js
-│   ├── chatController.js
-│   ├── callController.js
-│   └── adminController.js
-│
-├── routes/
-│   ├── authRoutes.js
-│   ├── chatRoutes.js
-│   ├── callRoutes.js
-│   └── adminRoutes.js
-│
-├── views/
-│   ├── user/
-│   │   ├── login.ejs
-│   │   ├── chats.ejs
-│   │   ├── chat.ejs
-│   │   ├── videocall.ejs
-│   │   └── audiocall.ejs
+├── src/
 │   │
-│   └── admin/
-│       ├── admin-login.ejs
-│       ├── dashboard.ejs
-│       ├── users.ejs
-│       ├── chats.ejs
-│       ├── calls.ejs
-│       └── reports.ejs
+│   ├── config/                     # CONFIGURATION
+│   │   ├── database.config.ts      # Database connection setup
+│   │   ├── socket.config.ts        # Socket.io configuration
+│   │   ├── app.config.ts           # App-wide settings
+│   │   └── env.config.ts           # Environment variables
+│   │
+│   ├── models/                     # DATABASE MODELS (Schema Definitions)
+│   │   ├── user.model.ts           # User schema
+│   │   ├── chat.model.ts           # Chat/conversation schema
+│   │   ├── message.model.ts        # Individual message schema
+│   │   ├── call.model.ts           # Call records schema
+│   │   ├── admin.model.ts          # Admin user schema
+│   │   └── index.ts                # Model exports
+│   │
+│   ├── controllers/                # BUSINESS LOGIC
+│   │   ├── user/
+│   │   │   ├── auth.controller.ts      # User authentication
+│   │   │   ├── profile.controller.ts   # User profile management
+│   │   │   ├── chat.controller.ts      # Chat operations
+│   │   │   ├── message.controller.ts   # Message CRUD
+│   │   │   └── call.controller.ts      # Call handling
+│   │   │
+│   │   └── admin/
+│   │       ├── auth.controller.ts      # Admin authentication
+│   │       ├── dashboard.controller.ts # Dashboard stats
+│   │       ├── user.controller.ts      # User management
+│   │       ├── chat.controller.ts      # Chat monitoring
+│   │       ├── call.controller.ts      # Call logs
+│   │       └── report.controller.ts    # Reports generation
+│   │
+│   ├── services/                   # SERVICE LAYER (Reusable business logic)
+│   │   ├── auth.service.ts         # Authentication logic
+│   │   ├── user.service.ts         # User operations
+│   │   ├── chat.service.ts         # Chat operations
+│   │   ├── message.service.ts      # Message operations
+│   │   ├── call.service.ts         # Call operations
+│   │   ├── email.service.ts        # Email notifications
+│   │   ├── upload.service.ts       # File upload handling
+│   │   └── socket.service.ts       # Real-time socket events
+│   │
+│   ├── routes/                     # ROUTE DEFINITIONS
+│   │   ├── index.ts                # Route aggregator
+│   │   ├── auth.routes.ts          # Authentication routes
+│   │   ├── user.routes.ts          # User profile routes
+│   │   ├── chat.routes.ts          # Chat routes
+│   │   ├── message.routes.ts       # Message routes
+│   │   ├── call.routes.ts          # Call routes
+│   │   └── admin.routes.ts         # Admin routes
+│   │
+│   ├── middlewares/                # MIDDLEWARE LOGIC
+│   │   ├── auth.middleware.ts      # JWT authentication
+│   │   ├── admin.middleware.ts     # Admin authorization
+│   │   ├── validate.middleware.ts  # Request validation
+│   │   ├── error.middleware.ts     # Error handling
+│   │   ├── upload.middleware.ts    # File upload handling
+│   │   ├── rateLimiter.middleware.ts # Rate limiting
+│   │   └── logger.middleware.ts    # Request logging
+│   │
+│   ├── validators/                 # REQUEST VALIDATION SCHEMAS
+│   │   ├── auth.validator.ts       # Auth validation rules
+│   │   ├── user.validator.ts       # User validation rules
+│   │   ├── chat.validator.ts       # Chat validation rules
+│   │   └── message.validator.ts    # Message validation rules
+│   │
+│   ├── utils/                      # UTILITY FUNCTIONS
+│   │   ├── jwt.util.ts             # JWT helper functions
+│   │   ├── bcrypt.util.ts          # Password hashing
+│   │   ├── response.util.ts        # Standardized API responses
+│   │   ├── logger.util.ts          # Logging utility
+│   │   ├── date.util.ts            # Date formatting
+│   │   └── validation.util.ts      # Common validation helpers
+│   │
+│   ├── types/                      # TYPESCRIPT TYPE DEFINITIONS
+│   │   ├── user.types.ts           # User-related types
+│   │   ├── chat.types.ts           # Chat-related types
+│   │   ├── message.types.ts        # Message-related types
+│   │   ├── call.types.ts           # Call-related types
+│   │   ├── express.types.ts        # Express extensions
+│   │   └── index.ts                # Type exports
+│   │
+│   ├── interfaces/                 # INTERFACES
+│   │   ├── IUser.ts
+│   │   ├── IChat.ts
+│   │   ├── IMessage.ts
+│   │   ├── ICall.ts
+│   │   └── index.ts
+│   │
+│   ├── sockets/                    # SOCKET.IO HANDLERS
+│   │   ├── index.ts                # Socket initialization
+│   │   ├── chat.socket.ts          # Chat events
+│   │   ├── call.socket.ts          # Call events (WebRTC signaling)
+│   │   ├── typing.socket.ts        # Typing indicators
+│   │   └── presence.socket.ts      # Online/offline status
+│   │
+│   └── constants/                  # CONSTANTS
+│       ├── messages.ts             # Response messages
+│       ├── status-codes.ts         # HTTP status codes
+│       └── roles.ts                # User roles
 │
-├── public/
+├── views/                          # FRONTEND (EJS TEMPLATES)
+│   ├── layouts/
+│   │   ├── main.ejs                # Main layout wrapper
+│   │   ├── user.ejs                # User layout
+│   │   └── admin.ejs               # Admin layout
+│   │
+│   ├── partials/
+│   │   ├── header.ejs
+│   │   ├── footer.ejs
+│   │   ├── sidebar.ejs
+│   │   └── navbar.ejs
+│   │
+│   ├── user/
+│   │   ├── auth/
+│   │   │   ├── login.ejs
+│   │   │   ├── register.ejs
+│   │   │   └── forgot-password.ejs
+│   │   │
+│   │   ├── profile/
+│   │   │   ├── view.ejs
+│   │   │   └── edit.ejs
+│   │   │
+│   │   ├── chat/
+│   │   │   ├── list.ejs            # Chat list
+│   │   │   ├── conversation.ejs    # Chat window
+│   │   │   └── group.ejs           # Group chat
+│   │   │
+│   │   └── call/
+│   │       ├── video.ejs
+│   │       └── audio.ejs
+│   │
+│   ├── admin/
+│   │   ├── auth/
+│   │   │   └── login.ejs
+│   │   │
+│   │   ├── dashboard/
+│   │   │   └── index.ejs
+│   │   │
+│   │   ├── users/
+│   │   │   ├── list.ejs
+│   │   │   └── view.ejs
+│   │   │
+│   │   ├── chats/
+│   │   │   ├── list.ejs
+│   │   │   └── view.ejs
+│   │   │
+│   │   ├── calls/
+│   │   │   └── logs.ejs
+│   │   │
+│   │   └── reports/
+│   │       ├── index.ejs
+│   │       ├── users.ejs
+│   │       └── activity.ejs
+│   │
+│   └── errors/
+│       ├── 404.ejs
+│       ├── 500.ejs
+│       └── 403.ejs
+│
+├── public/                         # STATIC FILES
 │   ├── css/
-│   │   └── style.css
-│   └── js/
-│       └── app.js
-
+│   │   ├── main.css
+│   │   ├── user.css
+│   │   ├── admin.css
+│   │   └── chat.css
+│   │
+│   ├── js/
+│   │   ├── main.js
+│   │   ├── socket-client.js        # Socket.io client
+│   │   ├── chat.js                 # Chat functionality
+│   │   ├── webrtc.js               # WebRTC handling
+│   │   └── admin.js
+│   │
+│   ├── images/
+│   │   ├── avatars/
+│   │   └── uploads/
+│   │
+│   └── uploads/                    # User uploaded files
+│       ├── images/
+│       ├── documents/
+│       └── avatars/
+│
+├── tests/                          # TESTING
+│   ├── unit/
+│   │   ├── controllers/
+│   │   ├── services/
+│   │   └── models/
+│   │
+│   ├── integration/
+│   │   ├── auth.test.ts
+│   │   ├── chat.test.ts
+│   │   └── call.test.ts
+│   │
+│   └── e2e/
+│       └── chat-flow.test.ts
+│
+├── logs/                           # APPLICATION LOGS
+│   ├── error.log
+│   ├── combined.log
+│   └── access.log
+│
+└── docs/                           # DOCUMENTATION
+    ├── API.md
+    ├── SETUP.md
+    └── DEPLOYMENT.md

@@ -8,4 +8,7 @@ export default class ResponseHandler {
   static sendError(res: Response, message: string | string[], status = 400) {
     res.status(status).json({ success: false, message });
   }
+  static sendServerError(res:Response,message:string| string[],status =500){
+    res.status(status).json({success:false,message})
+  }
 }
